@@ -35,7 +35,6 @@ module honeycomb(x, y, dia, wall, whole_only=false)  {
                     && (yoff - radius >= -y/2 && yoff + radius <= y/2)
                 )
         ) {
-            echo(x, y, "|", xoff, yoff);
             translate([xoff, yoff])
             circle(d=dia, $fn=6);
         }
