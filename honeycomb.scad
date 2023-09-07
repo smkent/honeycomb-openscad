@@ -10,43 +10,43 @@
 
 // a single filled hexagon
 module hexagon(l)  {
-	circle(d=l, $fn=6);
+    circle(d=l, $fn=6);
 }
 
-// parametric honeycomb  
+// parametric honeycomb
 module honeycomb(x, y, dia, wall)  {
-	// Diagram
-	//          ______     ___
-	//         /     /\     |
-	//        / dia /  \    | smallDia
-	//       /     /    \  _|_
-	//       \          /   ____ 
-	//        \        /   / 
-	//     ___ \______/   / 
-	// wall |            /
-	//     _|_  ______   \
-	//         /      \   \
-	//        /        \   \
-	//                 |---|
-	//                   projWall
-	//
-	smallDia = dia * cos(30);
-	projWall = wall * cos(30);
+    // Diagram
+    //          ______     ___
+    //         /     /\     |
+    //        / dia /  \    | smallDia
+    //       /     /    \  _|_
+    //       \          /   ____
+    //        \        /   /
+    //     ___ \______/   /
+    // wall |            /
+    //     _|_  ______   \
+    //         /      \   \
+    //        /        \   \
+    //                 |---|
+    //                   projWall
+    //
+    smallDia = dia * cos(30);
+    projWall = wall * cos(30);
 
-	yStep = smallDia + wall;
-	xStep = dia*3/2 + projWall*2;
+    yStep = smallDia + wall;
+    xStep = dia*3/2 + projWall*2;
 
-	difference()  {
-		square([x, y]);
+    difference()  {
+        square([x, y]);
 
-		// Note, number of step+1 to ensure the whole surface is covered
-		for (yOffset = [0:yStep:y+yStep], xOffset = [0:xStep:x+xStep]) {
-			translate([xOffset, yOffset]) {
-				hexagon(dia);
-			}
-			translate([xOffset + dia*3/4 + projWall, yOffset + (smallDia+wall)/2]) {
-				hexagon(dia);
-			}
-		}
-	}
+        // Note, number of step+1 to ensure the whole surface is covered
+        for (yOffset = [0:yStep:y+yStep], xOffset = [0:xStep:x+xStep]) {
+            translate([xOffset, yOffset]) {
+                hexagon(dia);
+            }
+            translate([xOffset + dia*3/4 + projWall, yOffset + (smallDia+wall)/2]) {
+                hexagon(dia);
+            }
+        }
+    }
 }
