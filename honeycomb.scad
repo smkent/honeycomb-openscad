@@ -36,11 +36,16 @@ module honeycomb(x, y, dia, wall)  {
     yStep = smallDia + wall;
     xStep = dia*3/2 + projWall*2;
 
-    difference()  {
-        square([x, y]);
+    yStepsCount = ceil((y/2) / yStep);
+    xStepsCount = ceil((x/2) / xStep);
 
-        // Note, number of step+1 to ensure the whole surface is covered
-        for (yOffset = [0:yStep:y+yStep], xOffset = [0:xStep:x+xStep]) {
+    difference() {
+        square([x, y]);
+        translate([x/2, y/2])
+        for (
+                yOffset = [-yStep * yStepsCount : yStep : yStep * yStepsCount],
+                xOffset = [-xStep * xStepsCount : xStep : xStep * xStepsCount]
+        ) {
             translate([xOffset, yOffset]) {
                 hexagon(dia);
             }
