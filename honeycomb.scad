@@ -8,13 +8,8 @@
  *   https://www.thingiverse.com/thing:1763704
  */
 
-// a single filled hexagon
-module hexagon(l)  {
-    circle(d=l, $fn=6);
-}
-
 // parametric honeycomb
-module honeycomb(x, y, dia, wall)  {
+module honeycomb(x, y, dia, wall, whole_only=false)  {
     // Diagram
     //          ______     ___
     //         /     /\     |
@@ -30,6 +25,22 @@ module honeycomb(x, y, dia, wall)  {
     //                 |---|
     //                   projWall
     //
+
+    // a single filled hexagon
+    module hexagon(xoff, yoff)  {
+        radius = dia / 2;
+        if (
+                !whole_only || (
+                    (xoff - radius >= -x/2 && xoff + radius <= x/2)
+                    && (yoff - radius >= -y/2 && yoff + radius <= y/2)
+                )
+        ) {
+            echo(x, y, "|", xoff, yoff);
+            translate([xoff, yoff])
+            circle(d=dia, $fn=6);
+        }
+    }
+
     smallDia = dia * cos(30);
     projWall = wall * cos(30);
 
@@ -46,12 +57,8 @@ module honeycomb(x, y, dia, wall)  {
                 yOffset = [-yStep * yStepsCount : yStep : yStep * yStepsCount],
                 xOffset = [-xStep * xStepsCount : xStep : xStep * xStepsCount]
         ) {
-            translate([xOffset, yOffset]) {
-                hexagon(dia);
-            }
-            translate([xOffset + dia*3/4 + projWall, yOffset + (smallDia+wall)/2]) {
-                hexagon(dia);
-            }
+            hexagon(xOffset, yOffset);
+            hexagon(xOffset + dia*3/4 + projWall, yOffset + (smallDia+wall)/2);
         }
     }
 }
