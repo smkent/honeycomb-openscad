@@ -10,5 +10,5 @@
 include <honeycomb.scad>
 
 linear_extrude(10) {
-	honeycomb(105, 80, 12, 3);
+	honeycomb(105, 80, 12, 3, whole_only=true);
 }
